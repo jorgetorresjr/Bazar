@@ -183,7 +183,7 @@ public class ControladorMenu {
             if (produtosIds != null) {
                 List<Produto> produtos = new ArrayList<>();
                 for (Integer id : produtosIds) {
-                    Produto p = fachada.readProduto(id); // Busca produto do DB
+                    Produto p = fachada.readProduto(id);
                     produtos.add(p);
                 }
                 lote.setProdutos(produtos);
