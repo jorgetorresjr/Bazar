@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Órgãos Donatários Adicionados</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<h2>Órgãos Donatários</h2>
+<table class="table">
+    <thead class="table-dark">
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Endereço</th>
+        <th>Telefone</th>
+        <th>Horário de Funcionamento</th>
+        <th>Descrição</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="o : ${orgaosDonatarios}">
+        <td th:text="${o.id}"></td>
+        <td th:text="${o.nome}"></td>
+        <td th:text="${o.endereco}"></td>
+        <td th:text="${o.telefone}"></td>
+        <td th:text="${o.horarioFuncionamento}"></td>
+        <td th:text="${o.descricao}"></td>
+        <td>
+            <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                    th:data-bs-target="'#modalAlterarOrgaoDonatario' + ${o.id}">Alterar</button>
+            <form th:action="@{/menu/deleteOrgaoDonatario/{id}(id=${o.id})}" method="post" style="display:inline">
+                <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a class="btn btn-primary" href="/menu">Voltar</a>
+
+<div th:each="o : ${orgaosDonatarios}" th:id="'modalAlterarOrgaoDonatario' + ${o.id}" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Alterar Órgão Donatário</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/menu/updateOrgaoDonatario}" method="post">
+                    <input type="hidden" name="id" th:value="${o.id}" />
+                    <div class="mb-3">
+                        <label>Nome</label>
+                        <input type="text" name="nome" class="form-control" th:value="${o.nome}" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Endereço</label>
+                        <input type="text" name="endereco" class="form-control" th:value="${o.endereco}" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Telefone</label>
+                        <input type="text" name="telefone" class="form-control" th:value="${o.telefone}" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Horário de Funcionamento</label>
+                        <input type="text" name="horarioFuncionamento" class="form-control" th:value="${o.horarioFuncionamento}" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Descrição</label>
+                        <input type="text" name="descricao" class="form-control" th:value="${o.descricao}" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Alterar Órgão Donatário</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="~{fragments/modais :: modais}"></div>
+
+</body>
+</html>

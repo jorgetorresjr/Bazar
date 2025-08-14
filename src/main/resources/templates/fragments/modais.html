@@ -1,0 +1,117 @@
+<div th:fragment="modais">
+
+
+
+
+    <div class="modal fade" id="modalRegistroOrgaoDonatario" tabindex="-1" aria-labelledby="exampleModalLabel2"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel2">Registro de Novo Órgão Donatário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/menu/newOrgaoDonatario">
+                        <input type="hidden" name="op" value="registroOrgaoDonatario"/>
+
+                        <table class="table">
+
+                            <tr>
+                                <td>Nome</td>
+                                <td><input type="text" name="nome" class="form-control"/></td>
+                            </tr>
+                            <tr>
+                                <td>Endereço</td>
+                                <td><input type="text" name="endereco" class="form-control"/></td>
+                            </tr>
+                            <tr>
+                                <td>Telefone</td>
+                                <td><input type="text" name="telefone" class="form-control"/></td>
+                            </tr>
+                            <tr>
+                                <td>Horário de Funcionamento</td>
+                                <td><input type="text" name="horarioFuncionamento" class="form-control"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Descrição</td>
+                                <td><input type="text" name="descricao" class="form-control"/></td>
+                            </tr>
+
+
+                        </table>
+                        <button type="submit" class="btn btn-primary">Registrar Órgão Donatário</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalRegistroOrgaoFiscalizador" tabindex="-1" aria-labelledby="exampleModalLabel3"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel3">Registro de Novo Órgão Fiscalizador</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/menu/newOrgaoFiscalizador">
+                        <input type="hidden" name="op" value="registroOrgaoFiscalizador"/>
+
+                        <table class="table">
+
+                            <tr>
+                                <td>Nome</td>
+                                <td><input type="text" name="nome" class="form-control"/></td>
+                            </tr>
+                            <tr>
+                                <td>Descrição</td>
+                                <td><input type="text" name="descricao" class="form-control"/></td>
+                            </tr>
+
+                        </table>
+                        <button type="submit" class="btn btn-primary">Registrar Órgão Fiscalizador</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalRegistroProduto" tabindex="-1" aria-labelledby="exampleModalLabel4"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel4">Registro de Novo Produto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/menu/newProduto">
+                        <input type="hidden" name="op" value="registroProduto"/>
+
+                        <table class="table">
+
+                            <tr>
+                                <td>Nome</td>
+                                <td><input type="text" name="nome" class="form-control"/></td>
+                            </tr>
+                            <tr>
+                                <td>Descrição</td>
+                                <td><input type="text" name="descricao" class="form-control"/></td>
+                            </tr>
+
+                        </table>
+                        <button type="submit" class="btn btn-primary">Registrar Produto</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu Bazar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        h2 {
+            margin-top: 20px;
+        }
+
+        body {
+            margin-left: 10px;
+        }
+
+        input {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<h2>Lotes</h2>
+<div class="d-flex align-items-center flex-wrap gap-2">
+    <form action="/menu/lote" method="post">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                data-bs-target="#modalRegistroLote"> Novo Lote
+        </button>
+    </form>
+    <form action="/menu/lotes" method="get" class="d-flex align-items-center flex-wrap gap-2">
+        <select name="orgaoDonatarioId" class="form-select" style="width: 250px;">
+            <option value="">-- Selecionar Órgão Donatário --</option>
+            <option th:each="od : ${orgaosDonatarios}"
+                    th:value="${od.id}"
+                    th:text="${od.nome}">
+            </option>
+        </select>
+        <button type="submit" class="btn btn-dark">Procurar</button>
+    </form>
+    <form action="/menu/lotes" method="get" class="d-flex align-items-center gap-2">
+        <select name="produtoCodigo" id="select-produto" class="form-select" style="width: 250px;">
+            <option value="">-- Selecionar Órgão Fiscalizador --</option>
+            <option th:each="of : ${orgaosFiscalizadores}"
+                    th:value="${of.id}"
+                    th:text="${of.nome}">
+            </option>
+        </select>
+        <button type="submit" class="btn btn-dark">Procurar</button>
+    </form>
+
+</div>
+
+<h2>Órgãos Donatários</h2>
+<div class="d-flex align-items-center flex-wrap gap-2">
+    <form action="" method="post">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                data-bs-target="#modalRegistroOrgaoDonatario">Novo Órgão Donatário
+        </button>
+    </form>
+
+    <a th:href="@{/menu/orgaosDonatarios}" class="btn btn-primary">Listar Órgãos Donatários</a>
+
+</div>
+
+<h2>Órgãos Fiscalizadores</h2>
+<div class="d-flex align-items-center flex-wrap gap-2">
+
+    <form action="" method="post">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                data-bs-target="#modalRegistroOrgaoFiscalizador">Novo Órgão Fiscalizador
+        </button>
+    </form>
+
+    <a th:href="@{/menu/orgaosFiscalizadores}" class="btn btn-primary">Listar Órgãos Fiscalizadores</a>
+
+</div>
+
+<h2>Produtos</h2>
+<div class="d-flex align-items-center flex-wrap gap-2">
+
+    <form action="" method="post" class="d-flex align-items-center flex-wrap gap-2">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                data-bs-target="#modalRegistroProduto">Novo Produto
+        </button>
+    </form>
+
+    <a th:href="@{/menu/produtos}" class="btn btn-primary">Listar Produtos</a>
+
+</div>
+
+<div class="modal fade" id="modalRegistroLote" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registro de Novo Lote</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/menu/lote">
+                    <input type="hidden" name="op" value="registroLote"/>
+
+                    <table class="table">
+                        <tr>
+                            <td>Data de Entrega</td>
+                            <td><input type="datetime-local" name="dataEntrega" class="form-control" required></td>
+                        </tr>
+
+                        <tr>
+                            <td>Observação</td>
+                            <td><input type="text" name="observacao" class="form-control"/></td>
+                        </tr>
+
+                        <tr>
+                            <td>Órgão Donatário</td>
+                            <td>
+                                <select name="orgaoDonatarioId" class="form-select">
+                                    <option value="">-- Selecionar --</option>
+                                    <th:block th:each="orgao : ${orgaosDonatarios}">
+                                        <option th:value="${orgao.id}" th:text="${orgao.nome}"></option>
+                                    </th:block>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Órgão Fiscalizador</td>
+                            <td>
+                                <select name="orgaoFiscalizadorId" class="form-select">
+                                    <option value="">-- Selecionar --</option>
+                                    <th:block th:each="orgao : ${orgaosFiscalizadores}">
+                                        <option th:value="${orgao.id}" th:text="${orgao.nome}"></option>
+                                    </th:block>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Produtos Adicionados</td>
+                            <td>
+                                <table id="tabela-produtos" class="table table-sm">
+                                    <thead>
+                                    <tr>
+                                        <th>Produto</th>
+                                        <th>Ação</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </td>
+                        <tr>
+                            <td>Escolher Produto</td>
+                            <td><select id="select-produto-modal" class="form-control w-50">
+                                <option value="">-- Selecione um Produto --</option>
+                                <th:block th:each="p : ${produtos}">
+                                    <option th:value="${p.codigo}" th:text="${p.nome}">Produto</option>
+                                </th:block>
+                            </select>
+                                <button type="button" id="btn-adicionar-produto" class="btn btn-primary mt-2">
+                                    Adicionar Produto
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                    <button type="submit" class="btn btn-primary">Registrar Lote</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/modais :: modais}"></div>
+
+<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+</script>
+
+<script>
+    const btnAdicionar = document.getElementById('btn-adicionar-produto');
+    const tabelaProdutos = document.querySelector('#tabela-produtos tbody');
+    const selectProduto = document.getElementById('select-produto-modal');
+
+    btnAdicionar.addEventListener('click', () => {
+        const produtoId = selectProduto.value;
+        const produtoNome = selectProduto.options[selectProduto.selectedIndex].text;
+
+        if (!produtoId) {
+            alert("Selecione um produto!");
+            return;
+        }
+
+        if (tabelaProdutos.querySelector(`input[name="produtos.id"][value="${produtoId}"]`)) {
+            alert("Produto já adicionado!");
+            return;
+        }
+
+        const tr = document.createElement('tr');
+
+        const tdNome = document.createElement('td');
+        tdNome.textContent = produtoNome;
+
+        const tdAcao = document.createElement('td');
+
+        const btnRemover = document.createElement('button');
+        btnRemover.type = 'button';
+        btnRemover.textContent = 'Remover';
+        btnRemover.className = 'btn btn-sm btn-danger';
+        btnRemover.addEventListener('click', () => {
+            tr.remove();
+        });
+
+        tdAcao.appendChild(btnRemover);
+        tr.appendChild(tdNome);
+        tr.appendChild(tdAcao);
+
+        const inputHidden = document.createElement('input');
+        inputHidden.type = 'hidden';
+        inputHidden.name = 'produtosIds';
+        inputHidden.value = produtoId;
+        tr.appendChild(inputHidden);
+
+        tabelaProdutos.appendChild(tr);
+    });
+</script>
+
+
+</body>
+</html>
